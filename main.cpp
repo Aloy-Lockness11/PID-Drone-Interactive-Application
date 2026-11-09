@@ -58,7 +58,22 @@ int main()
             drone.move({speed * dt, 0.f});
         }
 
+
+        // Rotate the drone based on keyboard input
+        const float rotationSpeed = 90.f; // Degrees per second
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q))
+        {
+            drone.rotate(sf::degrees(-rotationSpeed * dt));
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E))
+        {
+            drone.rotate(sf::degrees(rotationSpeed * dt));
+        }
+
         
+
         // Draw the entire drone
         drone.draw(window);
 
