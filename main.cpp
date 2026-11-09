@@ -12,17 +12,20 @@ int main()
 
     //Drone object animation
     Drone drone;
+    sf::Clock clock;
 
-    drone.move({100.f, 0.f});
-    drone.setRotation(sf::degrees(15.f));
+    const float speed = 200.f;
 
-
+    
     // Window settings
 
     window.setFramerateLimit(60);
 
     while (window.isOpen())
     {
+        //time elapsed since last frame
+        const float dt = clock.restart().asSeconds();
+
         while (const auto event = window.pollEvent())
         {
             if (event->is<sf::Event::Closed>())
@@ -33,6 +36,29 @@ int main()
 
         window.clear(sf::Color::Black);
 
+
+        // Handle keyboard input for drone movement
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
+        {
+            drone.move({0.f, -speed * dt});
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+        {
+            drone.move({0.f, speed * dt});
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+        {
+            drone.move({-speed * dt, 0.f});
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+        {
+            drone.move({speed * dt, 0.f});
+        }
+
+        
         // Draw the entire drone
         drone.draw(window);
 
