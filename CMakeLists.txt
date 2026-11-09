@@ -8,6 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(SFML 3 REQUIRED COMPONENTS Graphics)
 
-add_executable(drone main.cpp)
+add_executable(drone
+    main.cpp
+    Drone.cpp
+)
 
 target_link_libraries(drone PRIVATE SFML::Graphics)
