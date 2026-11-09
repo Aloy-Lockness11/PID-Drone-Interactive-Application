@@ -1,0 +1,18 @@
+
+# Compiled executables
+*.exe
+
+# Compiled C++ files
+*.o
+*.obj
+
+# Build directories
+build/
+cmake-build-*/
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+
+# Temporary files
+*.tmp
