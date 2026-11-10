@@ -10,8 +10,10 @@ int main()
         "Drone PID Simulator"
     );
 
-    //Drone object animation
-    Drone drone;
+    //Drone object setup and SimulationConfig initialization
+    SimulationConfig config;
+    Drone drone(config);
+
     sf::Clock clock;
 
 

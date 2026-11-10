@@ -2,6 +2,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "config/SimulationConfig.hpp"
 #include "engine/physics/PhysicsComponent.hpp"
 
 class Drone : public sf::Transformable {
@@ -11,6 +12,9 @@ private:
     float velocityX = 0.f;
     float accelerationX = 0.f;
     
+    // Adds SimulationConfig to the drone for rendering purposes
+    SimulationConfig config;
+
     // Adds physics engine capabilities to the drone
     PhysicsComponent physics;
 
@@ -26,7 +30,9 @@ private:
     sf::RectangleShape rightPropeller;
 
 public:
-    Drone();
+
+    //Constructor that initializes the drone with a given SimulationConfig
+    explicit Drone(const SimulationConfig& config);
 
     // Set the horizontal acceleration of the drone
     void setHorizontalAcceleration(float acceleration);

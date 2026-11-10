@@ -2,10 +2,14 @@
 #include "Drone.hpp"
 
 
-Drone::Drone()
+Drone::Drone(const SimulationConfig& config)
+    : config(config)
 {
     // Position of the complete drone in the window
-    setPosition({500.f, 300.f});
+    setPosition({
+        config.toScreenX(0.f),
+        config.toScreenY(0.f)
+    });
 
     // Body
     body.setSize({50.f, 15.f});

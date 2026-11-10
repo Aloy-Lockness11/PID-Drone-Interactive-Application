@@ -12,6 +12,7 @@ add_executable(drone
     src/main.cpp
     src/entities/Drone.cpp
     src/engine/physics/PhysicsComponent.cpp
+
 )
 
 target_include_directories(drone PRIVATE
@@ -34,6 +35,7 @@ find_package(GTest REQUIRED)
 # Create our test executable
 add_executable(physics_tests
     tests/PhysicsComponentTest.cpp
+    tests/SimulationConfigTest.cpp
     src/engine/physics/PhysicsComponent.cpp
 )
 
