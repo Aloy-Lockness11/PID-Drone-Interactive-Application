@@ -68,3 +68,22 @@ void Drone::draw(sf::RenderWindow& window)
     window.draw(leftPropeller, states);
     window.draw(rightPropeller, states);
 }
+
+void Drone::setHorizontalAcceleration(float acceleration)
+{
+    accelerationX = acceleration;
+}
+
+
+void Drone::update(float dt)
+{
+    // Horizontal acceleration from keyboard input
+    velocityX += accelerationX * dt;
+
+    // Apply simple linear drag
+    const float drag = 0.3f;
+    velocityX -= velocityX * drag * dt;
+
+    // Update the drone's position
+    move({velocityX * dt, 0.f});
+}
