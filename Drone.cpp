@@ -74,11 +74,16 @@ void Drone::setHorizontalAcceleration(float acceleration)
     accelerationX = acceleration;
 }
 
+
 void Drone::update(float dt)
 {
-    // Update horizontal velocity
+    // Horizontal acceleration from keyboard input
     velocityX += accelerationX * dt;
 
-    // Update horizontal position
+    // Apply simple linear drag
+    const float drag = 0.3f;
+    velocityX -= velocityX * drag * dt;
+
+    // Update the drone's position
     move({velocityX * dt, 0.f});
 }
