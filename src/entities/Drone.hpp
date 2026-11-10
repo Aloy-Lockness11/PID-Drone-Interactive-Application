@@ -8,9 +8,6 @@
 class Drone : public sf::Transformable {
 private:
 
-    // Horizontal velocity and acceleration of the drone
-    float velocityX = 0.f;
-    float accelerationX = 0.f;
     
     // Adds SimulationConfig to the drone for rendering purposes
     SimulationConfig config;
@@ -35,7 +32,7 @@ public:
     explicit Drone(const SimulationConfig& config);
 
     // Set the horizontal acceleration of the drone
-    void setHorizontalAcceleration(float acceleration);
+    void applyHorizontalForce(float force);
     void update(float dt);
 
 

@@ -54,3 +54,8 @@ float PhysicsComponent::getVelocityY() const
 {
     return velocityY;
 }
+
+float PhysicsComponent::getMass() const
+{
+    return mass;
+}

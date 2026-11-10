@@ -18,7 +18,7 @@ int main()
 
 
     const float speed = 200.f;
-    const float horizontalAcceleration = 150.f;
+    
     
 
     // Window settings
@@ -53,20 +53,23 @@ int main()
         }
 
 
-        // Set the horizontal acceleration of the drone
-        float inputAcceleration = 0.f;
+        
+        // Temporary horizontal force controls
+        const float horizontalForce = 1.5f; // Newtons
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
         {
-            inputAcceleration -= horizontalAcceleration;
+            drone.applyHorizontalForce(-horizontalForce);
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
         {
-            inputAcceleration += horizontalAcceleration;
+            drone.applyHorizontalForce(horizontalForce);
         }
 
-        drone.setHorizontalAcceleration(inputAcceleration);
+        // Update physics once per frame
         drone.update(dt);
+
 
         // Rotate the drone based on keyboard input
         const float rotationSpeed = 90.f; // Degrees per second

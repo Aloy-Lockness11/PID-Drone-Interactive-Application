@@ -29,4 +29,6 @@ public:
 
     float getVelocityX() const;
     float getVelocityY() const;
+
+    float getMass() const;
 };
