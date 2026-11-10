@@ -1,6 +1,5 @@
 
 #include <SFML/Graphics.hpp>
-
 #include "entities/Drone.hpp"
 
 int main()
