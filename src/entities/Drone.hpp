@@ -2,6 +2,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "engine/physics/PhysicsComponent.hpp"
 
 class Drone : public sf::Transformable {
 private:
@@ -9,6 +10,9 @@ private:
     // Horizontal velocity and acceleration of the drone
     float velocityX = 0.f;
     float accelerationX = 0.f;
+    
+    // Adds physics engine capabilities to the drone
+    PhysicsComponent physics;
 
     sf::RectangleShape body;
 

@@ -53,3 +53,43 @@ TEST(PhysicsComponentTest, ForceChangesPosition)
 }
 
 
+// Test that applying multiple forces accumulates correctly
+TEST(PhysicsComponentTest, ForcesAccumulate)
+{
+    PhysicsComponent physics;
+
+    // Two forces acting in the same direction
+    physics.applyForce(5.0f, 0.0f);
+    physics.applyForce(5.0f, 0.0f);
+
+    physics.update(1.0f);
+
+    // Combined force = 10 N, mass = 1 kg
+    EXPECT_FLOAT_EQ(10.0f, physics.getVelocityX());
+    EXPECT_NEAR(5.0f, physics.getPositionX(), 0.0001f);
+}
+
+
+// Test that whether forces reset after each update
+TEST(PhysicsComponentTest, ForcesResetAfterUpdate)
+{
+    PhysicsComponent physics;
+
+    // Apply 10 N during the first simulation step
+    physics.applyForce(10.0f, 0.0f);
+    physics.update(1.0f);
+
+    EXPECT_FLOAT_EQ(10.0f, physics.getVelocityX());
+    EXPECT_NEAR(5.0f, physics.getPositionX(), 0.0001f);
+
+    // Second step: no additional force
+    physics.update(1.0f);
+
+    // Velocity remains constant without forces
+    EXPECT_FLOAT_EQ(10.0f, physics.getVelocityX());
+
+    // Position increases another 10 metres
+    EXPECT_NEAR(15.0f, physics.getPositionX(), 0.0001f);
+}
+
+
