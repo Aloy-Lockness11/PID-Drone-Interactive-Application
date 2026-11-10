@@ -19,3 +19,36 @@ target_include_directories(drone PRIVATE
 )
 
 target_link_libraries(drone PRIVATE SFML::Graphics)
+
+
+
+
+#TESTING
+#--------------------------
+# Enable unit testing
+enable_testing()
+
+# Find GoogleTest
+find_package(GTest REQUIRED)
+
+# Create our test executable
+add_executable(physics_tests
+    tests/PhysicsComponentTest.cpp
+    src/engine/physics/PhysicsComponent.cpp
+)
+
+# Allow tests to include headers from src/
+target_include_directories(physics_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+# Link GoogleTest
+target_link_libraries(physics_tests PRIVATE
+    GTest::gtest_main
+)
+
+# Register our tests with CTest
+include(GoogleTest)
+
+gtest_discover_tests(physics_tests)
+
