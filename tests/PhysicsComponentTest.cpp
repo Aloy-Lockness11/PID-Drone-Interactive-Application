@@ -15,7 +15,7 @@ TEST(PhysicsComponentTest, StartsAtRest)
 }
 
 
-// Test that applying a force changes the velocity accordingly after one second of simulation
+// Test that applying a force changes the velocity
 TEST(PhysicsComponentTest, ForceChangesVelocity)
 {
     PhysicsComponent physics;
@@ -32,3 +32,24 @@ TEST(PhysicsComponentTest, ForceChangesVelocity)
     // No vertical force was applied
     EXPECT_FLOAT_EQ(0.0f, physics.getVelocityY());
 }
+
+
+// Test that applying a force changes the position using constant acceleration formula 
+TEST(PhysicsComponentTest, ForceChangesPosition)
+{
+    PhysicsComponent physics;
+
+    // Apply 10 newtons to our default 1 kg object
+    physics.applyForce(10.0f, 0.0f);
+
+    // Simulate one second
+    physics.update(1.0f);
+
+    // Expected displacement: 0.5 * 10 * 1^2 = 5 metres
+    EXPECT_NEAR(5.0f, physics.getPositionX(), 0.0001f);
+
+    // No vertical force or velocity
+    EXPECT_FLOAT_EQ(0.0f, physics.getPositionY());
+}
+
+

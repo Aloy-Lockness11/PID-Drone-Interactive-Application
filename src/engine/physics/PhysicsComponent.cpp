@@ -14,19 +14,22 @@ void PhysicsComponent::applyForce(float fx, float fy)
 
 void PhysicsComponent::update(float dt)
 {
-    // Newton's second law: F = ma
+    // Calculate acceleration using Newton's second law
     float accelerationX = forceX / mass;
     float accelerationY = forceY / mass;
+
+    // Calculate displacement using constant acceleration
+    positionX += velocityX * dt
+               + 0.5f * accelerationX * dt * dt;
+
+    positionY += velocityY * dt
+               + 0.5f * accelerationY * dt * dt;
 
     // Update velocity
     velocityX += accelerationX * dt;
     velocityY += accelerationY * dt;
 
-    // Update position
-    positionX += velocityX * dt;
-    positionY += velocityY * dt;
-
-    // Clear forces for the next simulation update
+    // Reset accumulated forces
     forceX = 0.0f;
     forceY = 0.0f;
 }
