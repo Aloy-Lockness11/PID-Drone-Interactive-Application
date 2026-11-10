@@ -14,9 +14,11 @@ int main()
     Drone drone;
     sf::Clock clock;
 
-    const float speed = 200.f;
 
+    const float speed = 200.f;
+    const float horizontalAcceleration = 150.f;
     
+
     // Window settings
 
     window.setFramerateLimit(60);
@@ -48,16 +50,21 @@ int main()
             drone.move({0.f, speed * dt});
         }
 
+
+        // Set the horizontal acceleration of the drone
+        float inputAcceleration = 0.f;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
         {
-            drone.move({-speed * dt, 0.f});
+            inputAcceleration -= horizontalAcceleration;
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
         {
-            drone.move({speed * dt, 0.f});
+            inputAcceleration += horizontalAcceleration;
         }
 
+        drone.setHorizontalAcceleration(inputAcceleration);
+        drone.update(dt);
 
         // Rotate the drone based on keyboard input
         const float rotationSpeed = 90.f; // Degrees per second
@@ -72,7 +79,8 @@ int main()
             drone.rotate(sf::degrees(rotationSpeed * dt));
         }
 
-        
+
+
 
         // Draw the entire drone
         drone.draw(window);
