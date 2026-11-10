@@ -2,10 +2,14 @@
 #include "Drone.hpp"
 
 
-Drone::Drone()
+Drone::Drone(const SimulationConfig& config)
+    : config(config)
 {
     // Position of the complete drone in the window
-    setPosition({500.f, 300.f});
+    setPosition({
+        config.toScreenX(0.f),
+        config.toScreenY(0.f)
+    });
 
     // Body
     body.setSize({50.f, 15.f});
@@ -69,21 +73,34 @@ void Drone::draw(sf::RenderWindow& window)
     window.draw(rightPropeller, states);
 }
 
-void Drone::setHorizontalAcceleration(float acceleration)
+void Drone::applyHorizontalForce(float force)
 {
-    accelerationX = acceleration;
+    physics.applyForce(force, 0.f);
 }
+
+
 
 
 void Drone::update(float dt)
 {
-    // Horizontal acceleration from keyboard input
-    velocityX += accelerationX * dt;
-
-    // Apply simple linear drag
+    // Simple linear damping
     const float drag = 0.3f;
-    velocityX -= velocityX * drag * dt;
 
-    // Update the drone's position
-    move({velocityX * dt, 0.f});
+    // F_drag = -m * k * v
+    float dragForce =
+        -physics.getMass() * drag * physics.getVelocityX();
+
+    // Add drag to the accumulated forces
+    physics.applyForce(dragForce, 0.f);
+
+    // Update physical position and velocity
+    physics.update(dt);
+
+    // Convert physical X position to screen pixels
+    float screenX =
+        config.toScreenX(physics.getPositionX());
+
+    // Preserve manual vertical movement for now
+    setPosition({screenX, getPosition().y});
 }
+
