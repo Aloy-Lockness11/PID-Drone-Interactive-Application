@@ -93,6 +93,9 @@ void Drone::update(float dt)
     // Add drag to the accumulated forces
     physics.applyForce(dragForce, 0.f);
 
+    // Settle small horizontal velocities to zero
+    physics.settleHorizontalVelocity(0.04f);
+
     // Update physical position and velocity
     physics.update(dt);
 

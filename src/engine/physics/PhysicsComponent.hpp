@@ -31,4 +31,6 @@ public:
     float getVelocityY() const;
 
     float getMass() const;
+    
+    void settleHorizontalVelocity(float threshold);
 };

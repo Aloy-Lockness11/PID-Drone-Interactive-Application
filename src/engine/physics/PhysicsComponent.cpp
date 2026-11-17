@@ -1,4 +1,5 @@
 #include "PhysicsComponent.hpp"
+#include <cmath>
 
 PhysicsComponent::PhysicsComponent()
 {
@@ -34,6 +35,30 @@ void PhysicsComponent::update(float dt)
     forceY = 0.0f;
 }
 
+
+// NON PHYSICS LAWS
+//----------------------------------------------------------------------------
+//These functions focus on behavior that is not strictly governed by physics laws 
+// Which helps ensure the component behaves within the confines of the software and system
+
+// Settle horizontal velocity if it is below a certain threshold
+// This prevents very small horizontal velocities from lingering due to floating-point inaccuracies
+void PhysicsComponent::settleHorizontalVelocity(float threshold)
+{
+    if (threshold < 0.0f)
+    {
+        return;
+    }
+
+    if (std::abs(velocityX) < threshold)
+    {
+        velocityX = 0.0f;
+    }
+}
+
+
+//GETTERS
+//------------------
 
 float PhysicsComponent::getPositionX() const
 {

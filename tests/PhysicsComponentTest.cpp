@@ -93,3 +93,35 @@ TEST(PhysicsComponentTest, ForcesResetAfterUpdate)
 }
 
 
+// NON PHYSICS LAWS
+//----------------------------------------------------------------------------
+//These tests focus on behavior that is not strictly governed by physics laws 
+// Which helps ensure the component behaves within the confines of the software and system
+
+// Test that horizontal velocity settles correctly when below a threshold
+
+TEST(PhysicsComponentTest, SettlesSmallHorizontalVelocity)
+{
+    PhysicsComponent physics;
+
+    // Generate a small velocity of 0.02 m/s
+    physics.applyForce(0.02f, 0.0f);
+    physics.update(1.0f);
+
+    physics.settleHorizontalVelocity(0.05f);
+
+    EXPECT_FLOAT_EQ(0.0f, physics.getVelocityX());
+}
+
+// Test that significant horizontal velocity is preserved when above the threshold
+TEST(PhysicsComponentTest, PreservesSignificantVelocity)
+{
+    PhysicsComponent physics;
+
+    physics.applyForce(2.0f, 0.0f);
+    physics.update(1.0f);
+
+    physics.settleHorizontalVelocity(0.05f);
+
+    EXPECT_FLOAT_EQ(2.0f, physics.getVelocityX());
+}
