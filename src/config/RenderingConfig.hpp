@@ -1,15 +1,16 @@
+
 #pragma once
 
 struct RenderingConfig
 {
-    // Pixels representing one metre
-    float pixelsPerMetre = 100.0f;
+    unsigned int windowWidth = 1000;
+    unsigned int windowHeight = 600;
+    unsigned int fpsLimit = 60;
 
-    // Screen origin in pixels
-    float screenOriginX = 500.0f;
-    float screenOriginY = 300.0f;
+    float pixelsPerMetre = 100.f;
+    float screenOriginX = 500.f;
+    float screenOriginY = 300.f;
 
-    // World metres to screen pixels
     float toScreenX(float metres) const
     {
         return screenOriginX + metres * pixelsPerMetre;
