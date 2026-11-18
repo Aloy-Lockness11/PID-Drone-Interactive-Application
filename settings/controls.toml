@@ -1,0 +1,8 @@
+
+# Temporary manual drone controls
+# These will eventually be replaced by thrust and PID controls.
+
+[manual]
+horizontal_force_newtons = 4.0
+vertical_speed_metres_per_second = 2.0
+pitch_speed_degrees_per_second = 90.0
