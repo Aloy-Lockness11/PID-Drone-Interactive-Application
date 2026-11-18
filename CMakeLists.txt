@@ -7,22 +7,23 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(SFML 3 REQUIRED COMPONENTS Graphics)
+find_package(tomlplusplus CONFIG REQUIRED)
 
 add_executable(drone
     src/main.cpp
     src/entities/Drone.cpp
     src/engine/physics/PhysicsComponent.cpp
-
+    src/config/ConfigLoader.cpp
 )
 
 target_include_directories(drone PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-target_link_libraries(drone PRIVATE SFML::Graphics)
-
-
-
+target_link_libraries(drone PRIVATE
+    SFML::Graphics
+    tomlplusplus::tomlplusplus
+)
 
 #TESTING
 #--------------------------
@@ -35,7 +36,7 @@ find_package(GTest REQUIRED)
 # Create our test executable
 add_executable(physics_tests
     tests/PhysicsComponentTest.cpp
-    tests/SimulationConfigTest.cpp
+    tests/RenderingConfigTest.cpp
     src/engine/physics/PhysicsComponent.cpp
 )
 

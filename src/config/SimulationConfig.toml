@@ -1,6 +1,0 @@
-
-# Simulation timing
-
-[simulation]
-physics_hz = 120
-max_frame_time = 0.25

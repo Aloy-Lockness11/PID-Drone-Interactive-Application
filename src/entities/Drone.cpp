@@ -2,7 +2,7 @@
 #include "Drone.hpp"
 
 
-Drone::Drone(const SimulationConfig& config)
+Drone::Drone(const RenderingConfig& config)
     : config(config)
 {
     // Position of the complete drone in the window

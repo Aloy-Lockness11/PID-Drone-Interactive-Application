@@ -10,7 +10,7 @@ int main()
     );
 
     //Drone object setup and SimulationConfig initialization
-    SimulationConfig config;
+    RenderingConfig config;
     Drone drone(config);
 
     sf::Clock clock;
@@ -26,7 +26,7 @@ int main()
 
     while (window.isOpen())
     {
-        //time elapsed since last frame
+        //STEP 1: Calculate the time elapsed since last frame
         const float dt = clock.restart().asSeconds();
 
         while (const auto event = window.pollEvent())
@@ -37,10 +37,9 @@ int main()
             }
         }
 
-        window.clear(sf::Color::Black);
 
 
-        // Handle keyboard input for drone movement
+        //STEP 2: Read keyboard input
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
         {
             drone.move({0.f, -speed * dt});
@@ -51,10 +50,9 @@ int main()
             drone.move({0.f, speed * dt});
         }
 
-
         
         // Temporary horizontal force controls
-        const float horizontalForce = 1.5f; // Newtons
+        const float horizontalForce = 4.0f; // Newtons
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
         {
@@ -65,10 +63,6 @@ int main()
         {
             drone.applyHorizontalForce(horizontalForce);
         }
-
-        // Update physics once per frame
-        drone.update(dt);
-
 
         // Rotate the drone based on keyboard input
         const float rotationSpeed = 90.f; // Degrees per second
@@ -83,10 +77,14 @@ int main()
             drone.rotate(sf::degrees(rotationSpeed * dt));
         }
 
+        //STEP 3: Update drone physics
+        drone.update(dt);
+
+        //STEP 4: Clear the window before drawing
+        window.clear(sf::Color::Black);
 
 
-
-        // Draw the entire drone
+        //STEP 5: Draw the drone
         drone.draw(window);
 
         window.display();
