@@ -2,14 +2,17 @@
 #include <gtest/gtest.h>
 #include <stdexcept>
 #include <toml++/toml.hpp>
+#include <filesystem>
 
 #include "config/ConfigLoader.hpp"
 
 // Integration test: read the actual TOML file
 TEST(RenderingConfigLoaderTest, LoadsValidRenderingConfig)
 {
-    RenderingConfig config =
-        ConfigLoader::loadRendering("settings/rendering.toml");
+    const auto path = std::filesystem::path(TEST_PROJECT_ROOT) /
+                  "settings/rendering.toml";
+
+    RenderingConfig config = ConfigLoader::loadRendering(path.string());
 
     EXPECT_EQ(config.windowWidth, 1000u);
     EXPECT_EQ(config.windowHeight, 600u);

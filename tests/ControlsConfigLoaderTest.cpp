@@ -1,3 +1,4 @@
+#include <filesystem>
 #include <gtest/gtest.h>
 #include <stdexcept>
 #include <toml++/toml.hpp>
@@ -7,8 +8,10 @@
 // Test that the ConfigLoader correctly loads valid controls configuration
 TEST(ControlsConfigLoaderTest, LoadsValidControls)
 {
-    ControlsConfig config =
-        ConfigLoader::loadControls("settings/controls.toml");
+    const auto path = std::filesystem::path(TEST_PROJECT_ROOT) /
+                  "settings/controls.toml";
+
+    ControlsConfig config = ConfigLoader::loadControls(path.string());
 
     EXPECT_FLOAT_EQ(4.0f, config.horizontalForceNewtons);
     EXPECT_FLOAT_EQ(2.0f, config.verticalSpeedMetresPerSecond);

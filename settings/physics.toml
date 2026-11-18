@@ -1,9 +1,7 @@
 
-# Physical simulation properties
+# Optional overrides for the drone simulator
+# Unspecified values inherit the engine defaults.
 
-[world]
-gravity = 9.81
+[physics]
+linear_damping = 0.5
 
-[drone]
-mass = 1.0
-linear_damping = 0.3

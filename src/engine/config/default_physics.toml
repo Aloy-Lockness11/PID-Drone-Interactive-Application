@@ -1,0 +1,9 @@
+
+# Default settings for the physics engine
+
+[world]
+#gravity in metres per second squared
+gravity = 9.81
+
+[physics]
+linear_damping = 0.3
