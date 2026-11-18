@@ -1,0 +1,9 @@
+
+# Physical simulation properties
+
+[world]
+gravity = 9.81
+
+[drone]
+mass = 1.0
+linear_damping = 0.3

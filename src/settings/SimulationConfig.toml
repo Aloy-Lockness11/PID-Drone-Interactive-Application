@@ -1,0 +1,8 @@
+
+[simulation]
+
+# Number of physics updates per second
+physics_update_hz = 120
+
+# Maximum elapsed time accepted per frame, in seconds
+max_frame_time_seconds = 0.25
