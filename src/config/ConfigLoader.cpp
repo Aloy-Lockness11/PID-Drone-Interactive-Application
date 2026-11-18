@@ -3,42 +3,56 @@
 
 #include <toml++/toml.hpp>
 #include <stdexcept>
-#include <cstdint>
+#include <cmath>
 
-SimulationTimingConfig ConfigLoader::loadSimulation(
+ControlsConfig ConfigLoader::loadControls(
     const std::string& filePath)
 {
-    // Read the TOML file
+    // Parse the TOML configuration file
     auto data = toml::parse_file(filePath);
 
-    // Find the simulation section
-    auto simulation = data["simulation"];
+    // Read the manual controls section
+    auto manual = data["manual"];
 
-    // Read required values
-    auto hz = simulation["physics_update_hz"].value<int64_t>();
+    auto horizontalForce =
+        manual["horizontal_force_newtons"].value<double>();
 
-    auto maxTime =
-        simulation["max_frame_time_seconds"].value<double>();
+    auto verticalSpeed =
+        manual["vertical_speed_metres_per_second"].value<double>();
 
-    // Validate required settings and types
-    if (!hz || *hz <= 0 || *hz > 1000)
+    auto pitchSpeed =
+        manual["pitch_speed_degrees_per_second"].value<double>();
+
+    // Validate horizontal force
+    if (!horizontalForce || !std::isfinite(*horizontalForce) ||
+        *horizontalForce < 0.0)
     {
         throw std::runtime_error(
-            "physics_update_hz must be between 1 and 1000"
+            "horizontal_force_newtons must be non-negative and finite"
         );
     }
 
-    if (!maxTime || !(*maxTime > 0.0) ||
-        !(*maxTime <= 1.0))
+    // Validate vertical speed
+    if (!verticalSpeed || !std::isfinite(*verticalSpeed) ||
+        *verticalSpeed < 0.0)
     {
         throw std::runtime_error(
-            "max_frame_time_seconds must be greater than 0 and at most 1"
+            "vertical_speed_metres_per_second must be non-negative and finite"
         );
     }
 
-    // Return a validated configuration
-    return SimulationTimingConfig{
-        static_cast<int>(*hz),
-        *maxTime
+    // Validate pitch speed
+    if (!pitchSpeed || !std::isfinite(*pitchSpeed) ||
+        *pitchSpeed < 0.0)
+    {
+        throw std::runtime_error(
+            "pitch_speed_degrees_per_second must be non-negative and finite"
+        );
+    }
+
+    return ControlsConfig{
+        static_cast<float>(*horizontalForce),
+        static_cast<float>(*verticalSpeed),
+        static_cast<float>(*pitchSpeed)
     };
 }

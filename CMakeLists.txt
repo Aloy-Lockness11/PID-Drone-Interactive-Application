@@ -37,7 +37,9 @@ find_package(GTest REQUIRED)
 add_executable(physics_tests
     tests/PhysicsComponentTest.cpp
     tests/RenderingConfigTest.cpp
+    tests/ConfigLoaderTest.cpp
     src/engine/physics/PhysicsComponent.cpp
+    src/config/ConfigLoader.cpp
 )
 
 # Allow tests to include headers from src/
@@ -45,13 +47,17 @@ target_include_directories(physics_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-# Link GoogleTest
+# Link GoogleTest and tomlplusplus
 target_link_libraries(physics_tests PRIVATE
     GTest::gtest_main
+    tomlplusplus::tomlplusplus
 )
 
 # Register our tests with CTest
 include(GoogleTest)
 
-gtest_discover_tests(physics_tests)
+
+gtest_discover_tests(physics_tests
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+)
 
