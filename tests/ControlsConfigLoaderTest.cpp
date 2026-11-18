@@ -5,7 +5,7 @@
 #include "config/ConfigLoader.hpp"
 
 // Test that the ConfigLoader correctly loads valid controls configuration
-TEST(ConfigLoaderTest, LoadsValidControls)
+TEST(ControlsConfigLoaderTest, LoadsValidControls)
 {
     ControlsConfig config =
         ConfigLoader::loadControls("settings/controls.toml");
@@ -17,7 +17,7 @@ TEST(ConfigLoaderTest, LoadsValidControls)
 
 
 // Test that the ConfigLoader rejects negative horizontal force values
-TEST(ConfigLoaderTest, RejectsNegativeHorizontalForce)
+TEST(ControlsConfigLoaderTest, RejectsNegativeHorizontalForce)
 {
     // Create TOML data directly in memory
     auto data = toml::parse(R"(
@@ -35,7 +35,7 @@ TEST(ConfigLoaderTest, RejectsNegativeHorizontalForce)
 }
 
 // Test that the ConfigLoader rejects negative vertical speed values
-TEST(ConfigLoaderTest, RejectsNegativeVerticalSpeed)
+TEST(ControlsConfigLoaderTest, RejectsNegativeVerticalSpeed)
 {
     auto data = toml::parse(R"(
         [manual]
@@ -51,7 +51,7 @@ TEST(ConfigLoaderTest, RejectsNegativeVerticalSpeed)
 }
 
 // Test that the ConfigLoader rejects negative pitch speed values
-TEST(ConfigLoaderTest, RejectsNegativePitchSpeed)
+TEST(ControlsConfigLoaderTest, RejectsNegativePitchSpeed)
 {
     auto data = toml::parse(R"(
         [manual]
@@ -68,7 +68,7 @@ TEST(ConfigLoaderTest, RejectsNegativePitchSpeed)
 
 
 // Test that the ConfigLoader rejects missing horizontal force values
-TEST(ConfigLoaderTest, RejectsMissingHorizontalForce)
+TEST(ControlsConfigLoaderTest, RejectsMissingHorizontalForce)
 {
     auto data = toml::parse(R"(
         [manual]
@@ -84,7 +84,7 @@ TEST(ConfigLoaderTest, RejectsMissingHorizontalForce)
 
 
 // Test that the checks reject incorrect value types
-TEST(ConfigLoaderTest, RejectsIncorrectValueType)
+TEST(ControlsConfigLoaderTest, RejectsIncorrectValueType)
 {
     auto data = toml::parse(R"(
         [manual]

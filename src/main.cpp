@@ -6,18 +6,24 @@
 
 int main()
 {
+    
     ControlsConfig controls;
+    RenderingConfig config;
 
     try
     {
         controls = ConfigLoader::loadControls(
             "settings/controls.toml"
         );
+
+        config = ConfigLoader::loadRendering(
+            "settings/rendering.toml"
+        );
     }
     catch (const std::exception& error)
     {
-        std::cerr << "Failed to load controls: "
-                  << error.what() << '\n';
+        std::cerr << "Failed to load configuration: "
+                << error.what() << '\n';
 
         return 1;
     }
@@ -25,21 +31,24 @@ int main()
 
 
     // Initialize the SFML window
+    
     sf::RenderWindow window(
-        sf::VideoMode({1000, 600}),
+        sf::VideoMode({
+            config.windowWidth,
+            config.windowHeight
+        }),
         "Drone PID Simulator"
     );
 
+
     //Drone object setup and rendering configuration initialization
-    RenderingConfig config;
     Drone drone(config);
 
     sf::Clock clock;
     
     
-    // Window settings
-
-    window.setFramerateLimit(60);
+    // Window Set Framerate Limit
+    window.setFramerateLimit(config.fpsLimit);
 
     while (window.isOpen())
     {

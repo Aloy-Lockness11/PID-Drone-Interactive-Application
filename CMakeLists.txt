@@ -37,7 +37,9 @@ find_package(GTest REQUIRED)
 add_executable(physics_tests
     tests/PhysicsComponentTest.cpp
     tests/RenderingConfigTest.cpp
-    tests/ConfigLoaderTest.cpp
+    tests/ControlsConfigLoaderTest.cpp
+    tests/RenderingConfigLoaderTest.cpp
+
     src/engine/physics/PhysicsComponent.cpp
     src/config/ConfigLoader.cpp
 )
