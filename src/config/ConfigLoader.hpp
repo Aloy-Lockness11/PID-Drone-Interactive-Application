@@ -1,6 +1,8 @@
+
 #pragma once
 
 #include <string>
+#include <toml++/toml.hpp>
 
 #include "config/SimulationTimingConfig.hpp"
 #include "config/ControlsConfig.hpp"
@@ -14,5 +16,9 @@ public:
 
     static ControlsConfig loadControls(
         const std::string& filePath
+    );
+
+    static ControlsConfig parseControls(
+        const toml::table& data
     );
 };
