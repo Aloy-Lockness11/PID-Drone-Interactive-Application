@@ -1,25 +1,42 @@
-
+#include "config/ConfigLoader.hpp"
+#include <exception>
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "entities/Drone.hpp"
 
 int main()
 {
+    ControlsConfig controls;
+
+    try
+    {
+        controls = ConfigLoader::loadControls(
+            "settings/controls.toml"
+        );
+    }
+    catch (const std::exception& error)
+    {
+        std::cerr << "Failed to load controls: "
+                  << error.what() << '\n';
+
+        return 1;
+    }
+
+
+
+    // Initialize the SFML window
     sf::RenderWindow window(
         sf::VideoMode({1000, 600}),
         "Drone PID Simulator"
     );
 
-    //Drone object setup and SimulationConfig initialization
+    //Drone object setup and rendering configuration initialization
     RenderingConfig config;
     Drone drone(config);
 
     sf::Clock clock;
-
-
-    const float speed = 200.f;
     
     
-
     // Window settings
 
     window.setFramerateLimit(60);
@@ -40,42 +57,53 @@ int main()
 
 
         //STEP 2: Read keyboard input
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-        {
-            drone.move({0.f, -speed * dt});
-        }
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-        {
-            drone.move({0.f, speed * dt});
-        }
-
-        
-        // Temporary horizontal force controls
-        const float horizontalForce = 4.0f; // Newtons
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
         {
-            drone.applyHorizontalForce(-horizontalForce);
+            drone.applyHorizontalForce(
+                -controls.horizontalForceNewtons
+            );
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
         {
-            drone.applyHorizontalForce(horizontalForce);
+            drone.applyHorizontalForce(
+                controls.horizontalForceNewtons
+            );
+        }
+        
+        
+        // Temporary direct vertical controls
+        const float verticalMovement =
+            controls.verticalSpeedMetresPerSecond *
+            config.pixelsPerMetre * dt;
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
+        {
+            drone.move({0.f, -verticalMovement});
         }
 
-        // Rotate the drone based on keyboard input
-        const float rotationSpeed = 90.f; // Degrees per second
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+        {
+            drone.move({0.f, verticalMovement});
+        }
 
+
+        // Rotate the drone based on keyboard input
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q))
         {
-            drone.rotate(sf::degrees(-rotationSpeed * dt));
+            drone.rotate(sf::degrees(
+                -controls.pitchSpeedDegreesPerSecond * dt
+            ));
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E))
         {
-            drone.rotate(sf::degrees(rotationSpeed * dt));
+            drone.rotate(sf::degrees(
+                controls.pitchSpeedDegreesPerSecond * dt
+            ));
         }
+
 
         //STEP 3: Update drone physics
         drone.update(dt);
